@@ -28,11 +28,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "devDependencies": {
-    "tsc": "^2.0.4"
-  },
   "dependencies": {
     "mdast": "^2.3.2",
     "unified": "^11.0.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
   }
 }
