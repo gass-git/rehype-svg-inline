@@ -13,7 +13,7 @@ const remarkInlineSvg: Plugin<[string?, string?], Root, Root> = (
 
   return function transformer(tree: Root): void {
     visit(tree, 'image', (node: Image, index: number, parent: any | undefined) => {
-      if (!node.url?.endsWith('.svg') || !index || !parent) return;
+      if (!node.url?.endsWith('.svg') || index == null || !parent) return;
 
       try {
         const svgPath = path.resolve(baseDirectory, options.relativePath + node.url);
