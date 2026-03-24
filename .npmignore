@@ -4,4 +4,6 @@
 .gitignore
 .prettierrc
 tsconfig.json
+tsconfig.cjs.json
+tsconfig.esm.json
 vitest.config.js

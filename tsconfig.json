@@ -3,21 +3,15 @@
   "compilerOptions": {
     // File Layout
     "rootDir": "./src",
-    "outDir": "./dist",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "target": "ES2020", // modern JS
-    "module": "ESNext", // ESM modules
     "types": ["node"],
     // For nodejs:
     "lib": ["esnext"],
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
-
-    // Other Outputs
-    "declaration": true,
-
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
 
@@ -31,11 +25,11 @@
 
     // Recommended Options
     "strict": false,
-    "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "declaration": true
   },
-  "exclude": ["node_modules", "tests"]
+  "exclude": ["node_modules", "tests", "dist"]
 }
