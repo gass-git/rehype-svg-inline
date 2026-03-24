@@ -17,7 +17,9 @@ import type { Options } from './types';
  * @param options.wrapper - Optional HTML wrapper for the inline SVG (default: `<figure class="inline-svg"></figure>`)
  * @param options.svgo - Whether to optimize SVG using SVGO (default: true)
  */
-const inlineSvg: Plugin<[Options?], Root, Root> = (consumerOptions: Options = {}) => {
+const remarkInlineSvg: Plugin<[Options?], Root, Root> = (
+  consumerOptions: Options = {},
+) => {
   const options = {
     suffix: consumerOptions.suffix ?? '.svg',
     assetsDir: consumerOptions.assetsDir,
@@ -74,19 +76,19 @@ function wrap(svgString: string, htmlWrapper: string): string {
  * Resolves the final SVG file path based on:
  * 1) absolute URL → from project root
  * 2) `assetsDir` → relative to it
- * 3) fallback → relative to Markdown file directory
+ * 3) fallback → relative to Markdown file directory (if markdown file directory is undefined use absolute URL)
  */
 function resolvePath(
   assetsDir: string | undefined,
   node: Image,
-  markdownFileDir: string,
+  markdownFileDir: string | undefined,
 ): string {
   if (path.isAbsolute(node.url)) {
     return path.resolve(process.cwd(), node.url);
   } else if (assetsDir) {
     return path.resolve(process.cwd(), assetsDir, node.url);
   } else {
-    return path.resolve(markdownFileDir, node.url);
+    return path.resolve(markdownFileDir ?? process.cwd(), node.url);
   }
 }
 /**
@@ -94,8 +96,8 @@ function resolvePath(
  */
 function optimizeSvg(svgString: string): Output {
   return optimize(svgString, {
-    plugins: ['preset-default', 'removeXMLNS', 'removeDimensions'],
+    plugins: ['preset-default', 'removeXMLNS'],
   });
 }
 
-export { inlineSvg };
+export { remarkInlineSvg };

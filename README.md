@@ -61,16 +61,21 @@ This is a test markdown document.
 ![some svg](some.svg)
 ```
 
-And our module `example.js` looks as follows:
+And our module `example.js` looks as the one below. It is recommended to pass
+the markdown directory path to `process()` so that the plugin can resolve relative
+paths correctly.
 
 ```js
 import { remark } from 'remark';
 import { readFile } from 'node:fs/promises';
-import { inlineSvg } from 'remark-inline-svg-flex';
+import { remarkInlineSvg } from 'remark-inline-svg-flex';
 
 const markdown = await readFile(_path, { encoding: 'utf8' });
 
-return await remark().use(remarkParse).use(inlineSvg).process(markdown);
+return await remark()
+  .use(remarkParse)
+  .use(remarkInlineSvg)
+  .process({ value: markdown, path: _path });
 ```
 
 Now running `node example.js` yields:
@@ -120,5 +125,5 @@ The SVG's are optimized by default. Disable it by setting it to `false`.
 ## SVGO configuration
 
 ```
-{ plugins: ['preset-default', 'removeXMLNS', 'removeDimensions'] }
+{ plugins: ['preset-default', 'removeXMLNS'] }
 ```
