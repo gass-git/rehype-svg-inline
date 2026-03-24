@@ -1,4 +1,4 @@
-> 🚧 **Work in progress** This plugin is still under active development. Expect changes.
+> ⚠️ Beta Nearing v1.0.0 — APIs may still change slightly.
 
 # remark-inline-svg-flex
 
