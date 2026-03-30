@@ -1,19 +1,16 @@
 {
   "name": "remark-inline-svg-flex",
   "version": "0.3.8",
-  "description": "Flexible Remark plugin that inlines and optimizes SVGs with SVGO, featuring customizable path resolution and wrappers.",
+  "description": "Customizable Remark plugin to inline and optimize SVGs with SVGO, with robust path resolution.",
   "keywords": [
-    "unified",
-    "rehype",
-    "plugin",
-    "rehype-plugin",
+    "remark",
     "inline",
     "svg",
+    "svgo",
     "image",
     "img",
     "html"
   ],
-  "homepage": "https://github.com/gass-git/remark-inline-svg-flex#readme",
   "bugs": {
     "url": "https://github.com/gass-git/remark-inline-svg-flex/issues"
   },
@@ -26,12 +23,12 @@
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/cjs/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/types.d.ts"
     }
   },
   "scripts": {
@@ -48,11 +45,11 @@
     "rimraf": "^6.1.3",
     "typescript": "^5.9.3",
     "unified": "^11.0.5",
+    "vfile": "^6.0.3",
     "vitest": "^4.1.0"
   },
   "dependencies": {
     "svgo": "^4.0.1",
-    "unist-util-visit": "^5.1.0",
-    "vfile": "^6.0.3"
+    "unist-util-visit": "^5.1.0"
   }
 }
