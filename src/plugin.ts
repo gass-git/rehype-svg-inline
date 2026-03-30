@@ -35,14 +35,16 @@ const remarkInlineSvg: Plugin<[Options?], Root, Root> = (
         const svgPath = resolvePath(
           options.assetsDir,
           node,
-          path.dirname(file.history[0]),
+          file.history[0] && path.dirname(file.history[0]),
         );
         const svgString = processSvg(svgPath, options.svgo);
 
-        parent.children[i] = {
-          type: 'html',
-          value: options.wrapper ? wrap(svgString, options.wrapper) : svgString,
-        };
+        if (i) {
+          parent.children[i] = {
+            type: 'html',
+            value: options.wrapper ? wrap(svgString, options.wrapper) : svgString,
+          };
+        }
       } catch (error) {
         console.warn(error);
       }
