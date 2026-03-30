@@ -6,7 +6,7 @@
 [![version](https://img.shields.io/npm/v/remark-inline-svg-flex.svg?style=flat-square)](https://www.npmjs.com/package/remark-inline-svg-flex)
 [![MIT License](https://img.shields.io/npm/l/remark-inline-svg-flex.svg?style=flat-square)](https://github.com/gass-git/remark-inline-svg-flex/blob/main/LICENSE)
 
-Flexible Remark plugin that inlines and optimizes SVGs with SVGO, featuring customizable path resolution, wrappers and others.
+Flexible Remark plugin that inlines and optimizes SVGs with SVGO, featuring customizable path resolution, HTML wrappers and more.
 
 - [remark-inline-svg-flex](#remark-inline-svg-flex)
   - [Features](#features)
@@ -24,7 +24,7 @@ Flexible Remark plugin that inlines and optimizes SVGs with SVGO, featuring cust
 ### ✔️ Robust and customizable path resolution
 
 - If the SVG path is absolute, it is used as-is.
-- If the path is relative and assetsDir is defined, it is resolved relative to that directory.
+- If the path is relative and `assetsDir` is defined, it is resolved relative to the `assetsDir` directory.
 - Otherwise, the path is resolved relative to the Markdown file’s location.
 
 ### ✔️ Custom HTML wrapper support
@@ -61,19 +61,19 @@ This is a test markdown document.
 ![some svg](some.svg)
 ```
 
-And our module `example.js` looks as the one below (it is recommended to pass the markdown directory path to `process()` so that the plugin can resolve relative paths correctly).
+And our module `example.js` looks as the one below (it is recommended to pass the markdown directory `path` to `process()` so that the plugin can resolve relative paths correctly).
 
 ```js
 import { remark } from 'remark';
 import { readFile } from 'node:fs/promises';
 import { remarkInlineSvg } from 'remark-inline-svg-flex';
 
-const markdown = await readFile(_path, { encoding: 'utf8' });
+const markdown = await readFile(path, { encoding: 'utf8' });
 
 return await remark()
   .use(remarkParse)
   .use(remarkInlineSvg)
-  .process({ value: markdown, path: _path });
+  .process({ value: markdown, path: path });
 ```
 
 Now running `node example.js` yields:
@@ -123,6 +123,8 @@ Defines the HTML wrapper used around the inlined SVG.
 The SVG's are optimized by default. Disable it by setting it to `false`.
 
 ## SVGO configuration
+
+SVGO is configured to use the [default preset](https://svgo.dev/docs/preset-default/) of plugins and the [removeXMLNS](https://svgo.dev/docs/plugins/removeXMLNS/) plugin.
 
 ```
 { plugins: ['preset-default', 'removeXMLNS'] }
