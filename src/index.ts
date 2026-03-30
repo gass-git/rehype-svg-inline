@@ -1,1 +1,1 @@
-export * from './plugin.js';
+export { remarkInlineSvg } from './plugin.js';
