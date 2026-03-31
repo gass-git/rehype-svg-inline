@@ -27,7 +27,7 @@ const remarkInlineSvg: Plugin<[Options?], Root, Root> = (
     svgo: consumerOptions.svgo ?? true,
   };
 
-  return function transformer(tree: Root, file: VFile): void {
+  return function transformer(tree: Root, vFile: VFile): void {
     visit(tree, 'image', (node, i, parent) => {
       if (!node.url?.endsWith(options.suffix) || !parent) return;
 
@@ -35,7 +35,8 @@ const remarkInlineSvg: Plugin<[Options?], Root, Root> = (
         const svgPath = resolvePath(
           options.assetsDir,
           node,
-          file.history[0] && path.dirname(file.history[0]),
+          vFile.history[0] && path.dirname(vFile.history[0]),
+          vFile.cwd,
         );
         const svgString = processSvg(svgPath, options.svgo);
 
@@ -83,14 +84,20 @@ function wrap(svgString: string, htmlWrapper: string): string {
 function resolvePath(
   assetsDir: string | undefined,
   node: Image,
-  markdownFileDir: string | undefined,
+  vFileDir: string | undefined,
+  vFileCwd: string | undefined,
 ): string {
+  const root = vFileCwd ?? process.cwd();
+
   if (path.isAbsolute(node.url)) {
-    return path.resolve(process.cwd(), node.url);
+    // absolute URL attempting to use the project directory as root (uses `process.cwd()` as fallback)
+    return path.resolve(root, normalizePath(node.url));
   } else if (assetsDir) {
-    return path.resolve(process.cwd(), normalizePath(assetsDir), node.url);
+    // relative to assetsDir specified by consumer
+    return path.resolve(root, normalizePath(assetsDir), node.url);
   } else {
-    return path.resolve(markdownFileDir ?? process.cwd(), node.url);
+    // relative to Markdown file directory
+    return path.resolve(vFileDir ?? root, node.url);
   }
 }
 /**
@@ -103,7 +110,17 @@ function optimizeSvg(svgString: string): Output {
 }
 
 function normalizePath(path: string): string {
-  return path.endsWith('/') ? path : path + '/';
+  let normalizedPath = path;
+
+  if (path.startsWith('/')) {
+    normalizedPath = normalizedPath.slice(1);
+  }
+
+  if (!path.endsWith('/')) {
+    normalizedPath = normalizedPath + '/';
+  }
+
+  return normalizedPath;
 }
 
 export { remarkInlineSvg };

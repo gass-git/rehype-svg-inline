@@ -1,4 +1,4 @@
-> ⚠️ Beta Nearing v1.0.0 — APIs may still change slightly.
+> ⚠️ Beta Nearing v1.0.0 — Still under development! APIs may change.
 
 # remark-inline-svg-flex
 
@@ -23,7 +23,7 @@ Flexible Remark plugin that inlines and optimizes SVGs with SVGO, featuring cust
 
 ### ✔️ Robust and customizable path resolution
 
-- If the SVG path is absolute, it is used as-is.
+- If the SVG path is absolute, it will use the project directory as root.
 - If the path is relative and `assetsDir` is defined, it is resolved relative to the `assetsDir` directory.
 - Otherwise, the path is resolved relative to the Markdown file’s location.
 
